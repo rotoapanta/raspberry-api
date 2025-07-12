@@ -16,10 +16,36 @@ LOG_INTERVAL = 10  # segundos
 
 @app.get("/status")
 def get_status():
+    disk = psutil.disk_usage('/')
+
+    # Buscar todas las unidades USB montadas bajo /media/pi
+    usb_mount_prefix = "/media/pi"
+    usb_disks = []
+    for part in psutil.disk_partitions(all=False):
+        if part.mountpoint.startswith(usb_mount_prefix):
+            try:
+                usage = psutil.disk_usage(part.mountpoint)
+                usb_disks.append({
+                    "mount": part.mountpoint,
+                    "device": part.device,
+                    "total": round(usage.total / (1024 ** 3), 2),
+                    "used": round(usage.used / (1024 ** 3), 2),
+                    "free": round(usage.free / (1024 ** 3), 2),
+                    "percent": round(usage.percent, 2)
+                })
+            except PermissionError:
+                continue  # Ignorar si no se puede acceder a la unidad
+
     return {
         "cpu": psutil.cpu_percent(),
         "ram": psutil.virtual_memory().percent,
-        "disk": psutil.disk_usage('/').percent,
+        "disk": round(disk.percent, 2),
+        "disk_info": {
+            "total": round(disk.total / (1024 ** 3), 2),
+            "used": round(disk.used / (1024 ** 3), 2),
+            "free": round(disk.free / (1024 ** 3), 2)
+        },
+        "usb": usb_disks,  # Lista con todas las memorias detectadas
         "temp": get_cpu_temp(),
         "hostname": socket.gethostname(),
         "ip": get_local_ip(),
@@ -28,6 +54,7 @@ def get_status():
             "status": "NORMAL"
         }
     }
+
 
 @app.get("/log")
 def get_log():
