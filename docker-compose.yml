@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: raspberry-api
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: raspberry-db
+    environment:
+      POSTGRES_USER: raspberry
+      POSTGRES_PASSWORD: raspberry
+      POSTGRES_DB: raspberry_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:

@@ -1,0 +1,15 @@
+[Unit]
+Description=RainGauge Raspberry API (FastAPI + Uvicorn)
+After=network.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/Documents/Projects/raspberry-api
+ExecStart=/home/pi/miniforge3/envs/raspberry-api-env/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=5
+Environment="BACKEND_IP=192.168.190.10"
+Environment="BACKEND_PORT=8000"
+
+[Install]
+WantedBy=multi-user.target
