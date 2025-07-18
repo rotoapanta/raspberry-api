@@ -48,7 +48,20 @@ Edit `.env` as needed for your environment.
 
 You can deploy this project on any Raspberry Pi using either a Python virtual environment or Docker/Docker Compose.
 
-### Option A: Python Virtual Environment (recommended for development)
+### Quick Docker Deployment (recommended)
+
+You can use the provided script to build and start the project easily:
+
+```bash
+./deploy.sh
+```
+
+This script will:
+- Stop and remove any previous containers.
+- Build and start the raspberry-api container using Docker Compose.
+- Show you how to check logs.
+
+### Option A: Python Virtual Environment (for development)
 
 1. Clone the repository:
    ```bash
@@ -74,7 +87,7 @@ You can deploy this project on any Raspberry Pi using either a Python virtual en
    uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
-### Option B: Docker/Docker Compose (recommended for production)
+### Option B: Docker/Docker Compose (for production)
 
 1. Clone the repository:
    ```bash
@@ -123,7 +136,7 @@ Interactive API documentation is available at `/docs` (Swagger UI) and `/redoc`.
 raspberry-api/
 ├── app/
 │   ├── main.py                # API entry point
-│   ├── api/
+���   ├── api/
 │   │   └── v1/
 │   │       └── status.py      # Versioned status endpoints
 │   ├── services/
@@ -141,6 +154,7 @@ raspberry-api/
 ├── Dockerfile                 # Dockerization
 ├── docker-compose.yml         # Multi-service orchestration
 ├── DEPLOY.md                  # Deployment guide
+├── deploy.sh                  # Quick deployment script
 ├── pyproject.toml             # black and flake8 config
 ├── LICENSE                    # License
 └── systemd/                   # systemd integration files
