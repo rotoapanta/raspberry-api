@@ -1,13 +1,12 @@
 # Raspberry API
 
-API for monitoring and logging the status of a Raspberry Pi, developed with FastAPI. It allows you to query system information, log events, and periodically communicate with a backend.
+API for monitoring and logging the status of a Raspberry Pi, developed with FastAPI. It allows you to query system information, log events, and monitor your device in real time.
 
 ## Features
 - Query system status: CPU, RAM, disk, USBs, temperature, hostname, IP, uptime, and battery.
 - Read system logs.
 - Extensible and professional architecture.
 - Flexible configuration via environment variables and `.env` file.
-- Ready for deployment with Docker.
 - Automatic linting and formatting with black and flake8.
 - Automatic log rotation to prevent large log files.
 
@@ -44,24 +43,7 @@ LOG_DIR=logs
 
 Edit `.env` as needed for your environment.
 
-## Deployment
-
-You can deploy this project on any Raspberry Pi using either a Python virtual environment or Docker/Docker Compose.
-
-### Quick Docker Deployment (recommended)
-
-You can use the provided script to build and start the project easily:
-
-```bash
-./deploy.sh
-```
-
-This script will:
-- Stop and remove any previous containers.
-- Build and start the raspberry-api container using Docker Compose.
-- Show you how to check logs.
-
-### Option A: Python Virtual Environment (for development)
+## Deployment (Recommended: Python Virtual Environment)
 
 1. Clone the repository:
    ```bash
@@ -80,33 +62,12 @@ This script will:
    ```
 4. Install dependencies:
    ```bash
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
 5. Start the API:
    ```bash
    uvicorn app.main:app --host 0.0.0.0 --port 8000
-   ```
-
-### Option B: Docker/Docker Compose (for production)
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/rotoapanta/raspberry-api.git
-   cd raspberry-api
-   ```
-2. Create and edit the environment file:
-   ```bash
-   cp .env.example .env  # Or create .env manually
-   # Edit .env as needed
-   ```
-3. Deploy only the API with Docker:
-   ```bash
-   docker build -t raspberry-api .
-   docker run -d -p 8000:8000 --env-file .env --name raspberry-api raspberry-api
-   ```
-4. Deploy multi-service with Docker Compose (API + PostgreSQL):
-   ```bash
-   docker-compose up -d
    ```
 
 ## Linting and Automatic Formatting
@@ -136,7 +97,7 @@ Interactive API documentation is available at `/docs` (Swagger UI) and `/redoc`.
 raspberry-api/
 ├── app/
 │   ├── main.py                # API entry point
-���   ├── api/
+│   ├── api/
 │   │   └── v1/
 │   │       └── status.py      # Versioned status endpoints
 │   ├── services/
@@ -151,10 +112,7 @@ raspberry-api/
 ├── README.md                  # Main documentation
 ├── .env.example               # Example configuration
 ├── .env                       # Real environment configuration (not committed)
-├── Dockerfile                 # Dockerization
-├── docker-compose.yml         # Multi-service orchestration
 ├── DEPLOY.md                  # Deployment guide
-├── deploy.sh                  # Quick deployment script
 ├── pyproject.toml             # black and flake8 config
 ├── LICENSE                    # License
 └── systemd/                   # systemd integration files
