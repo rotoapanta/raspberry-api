@@ -5,7 +5,6 @@ API for monitoring and logging the status of a Raspberry Pi, developed with Fast
 ## Features
 - Query system status: CPU, RAM, disk, USBs, temperature, hostname, IP, uptime, and battery.
 - Read system logs.
-- Periodic registration with a remote backend.
 - Extensible and professional architecture.
 - Flexible configuration via environment variables and `.env` file.
 - Ready for deployment with Docker.
@@ -25,50 +24,77 @@ Install dependencies with:
 pip install -r requirements.txt
 ```
 
-## Flexible Configuration
-You can define configuration in a `.env` file at the project root. Example:
+## Environment Configuration
+
+The application uses a `.env` file for configuration. Example:
 
 ```
-BACKEND_IP=192.168.1.100
-BACKEND_PORT=8001
-REGISTER_INTERVAL=60
+# .env - Environment configuration for raspberry-api
+#
+# This file contains environment variables used to configure the application.
+# Do NOT commit your real .env file with sensitive data to version control.
+#
+# Variables:
+#   LOG_INTERVAL - Interval (in seconds) for logging system status
+#   LOG_DIR      - Directory where log files will be stored
+
 LOG_INTERVAL=10
 LOG_DIR=logs
 ```
 
-Copy the example file:
-```bash
-cp .env.example .env
-```
+Edit `.env` as needed for your environment.
 
-## Local Usage
+## Deployment
+
+You can deploy this project on any Raspberry Pi using either a Python virtual environment or Docker/Docker Compose.
+
+### Option A: Python Virtual Environment (recommended for development)
+
 1. Clone the repository:
    ```bash
-   git clone <REPO_URL>
+   git clone https://github.com/rotoapanta/raspberry-api.git
    cd raspberry-api
    ```
-2. Install dependencies:
+2. Create and edit the environment file:
+   ```bash
+   cp .env.example .env  # Or create .env manually
+   # Edit .env as needed
+   ```
+3. Create and activate the virtual environment:
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+4. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Run the API:
+5. Start the API:
    ```bash
-   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
-## Dockerization
-You can build and run the API in a Docker container:
+### Option B: Docker/Docker Compose (recommended for production)
 
-```bash
-docker build -t raspberry-api .
-docker run -d -p 8000:8000 --env-file .env --name raspberry-api raspberry-api
-```
-
-Or use Docker Compose for multi-service deployment (API + PostgreSQL):
-
-```bash
-docker-compose up -d
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/rotoapanta/raspberry-api.git
+   cd raspberry-api
+   ```
+2. Create and edit the environment file:
+   ```bash
+   cp .env.example .env  # Or create .env manually
+   # Edit .env as needed
+   ```
+3. Deploy only the API with Docker:
+   ```bash
+   docker build -t raspberry-api .
+   docker run -d -p 8000:8000 --env-file .env --name raspberry-api raspberry-api
+   ```
+4. Deploy multi-service with Docker Compose (API + PostgreSQL):
+   ```bash
+   docker-compose up -d
+   ```
 
 ## Linting and Automatic Formatting
 To keep the code clean and consistent:
@@ -111,6 +137,7 @@ raspberry-api/
 ├── requirements.txt           # Dependencies
 ├── README.md                  # Main documentation
 ├── .env.example               # Example configuration
+├── .env                       # Real environment configuration (not committed)
 ├── Dockerfile                 # Dockerization
 ├── docker-compose.yml         # Multi-service orchestration
 ├── DEPLOY.md                  # Deployment guide
