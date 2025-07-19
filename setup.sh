@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# Ensure conda is initialized for this shell
-conda init
-
 ENV_NAME="raspberry-api-env"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -50,7 +47,7 @@ else
 fi
 
 print_step "4/7" "Activating conda environment"
-# shellcheck disable=SC1091
+# Activación segura sin depender de .bashrc
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate "$ENV_NAME"
 
