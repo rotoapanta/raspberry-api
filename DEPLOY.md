@@ -65,7 +65,45 @@ Edit `.env` as needed for your environment.
 
 ---
 
+## Deployment (Conda Environment + systemd Service)
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone https://github.com/rotoapanta/raspberry-api.git
+   cd raspberry-api
+   ```
+
+2. **Ejecuta el script de setup:**
+   ```bash
+   bash setup.sh
+   ```
+   - Si es la primera vez que usas conda en este dispositivo, cierra y vuelve a abrir la terminal (o ejecuta `source ~/.bashrc`) después del setup.
+
+3. **Edita el archivo `.env`** (si es necesario):
+   ```bash
+   nano .env
+   ```
+   - Ajusta la configuración según tu entorno.
+
+4. **(Opcional) Prueba la API manualmente:**
+   ```bash
+   conda activate raspberry-api-env
+   uvicorn app.main:app --host 0.0.0.0 --port 8000
+   ```
+   - Accede a `http://<IP_RASPBERRY>:8000/api/v1/status` para verificar que funciona.
+
+5. **Instala el servicio systemd:**
+   ```bash
+   sudo cp systemd/raspberry-api.service /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl enable raspberry-api.service
+   sudo systemctl start raspberry-api.service
+   sudo systemctl status raspberry-api.service
+   ```
+   - El servicio arrancará automáticamente en cada reinicio.
+
+---
+
 ## Notes
-- This method ensures the API can access real hardware information from the Raspberry Pi (CPU, RAM, disk, hostname, IP, USBs, etc.).
-- For production, you can use systemd to run the API as a service if desired.
-- For logging and monitoring, logs are stored in the directory defined by `LOG_DIR`.
+- Ambos métodos aseguran que la API pueda acceder a la información real del hardware de la Raspberry Pi (CPU, RAM, disco, hostname, IP, USBs, etc.).
+- Para logging y monitoreo, los logs se almacenan en el directorio definido por `LOG_DIR`.
