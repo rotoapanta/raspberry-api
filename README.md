@@ -1,7 +1,6 @@
-# Raspberry API
+# <p align="center">Raspberry API
 
 [![Python](https://img.shields.io/badge/Python-3.11-brightgreen)](https://www.python.org/)
-[![Zabbix](https://img.shields.io/badge/Zabbix-4.6-orange)](https://www.zabbix.com/)
 ![GitHub issues](https://img.shields.io/github/issues/rotoapanta/raspberry-api)
 ![GitHub repo size](https://img.shields.io/github/repo-size/rotoapanta/raspberry-api)
 ![GitHub last commit](https://img.shields.io/github/last-commit/rotoapanta/raspberry-api)
