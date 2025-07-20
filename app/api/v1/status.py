@@ -17,7 +17,7 @@ def get_status() -> Dict[str, Any]:
     Returns the current system status: CPU, RAM, disk, USBs, temperature, hostname, IP, uptime, and battery, with metadata.
     """
     import datetime
-    from app.core.config import API_VERSION
+    from app.core.config import API_VERSION, AUTHOR
 
     disk = psutil.disk_usage('/')
 
@@ -62,7 +62,8 @@ def get_status() -> Dict[str, Any]:
     meta = {
         "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
         "api_version": API_VERSION,
-        "status": "success"
+        "status": "success",
+        "author": AUTHOR
     }
 
     return {
