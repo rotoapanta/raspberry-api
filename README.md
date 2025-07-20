@@ -1,5 +1,11 @@
 # Raspberry API
 
+![GitHub repo size](https://img.shields.io/github/repo-size/rotoapanta/raspberry-api)
+![GitHub license](https://img.shields.io/github/license/rotoapanta/raspberry-api)
+![Python version](https://img.shields.io/badge/python-3.8%2B-blue)
+![Last commit](https://img.shields.io/github/last-commit/rotoapanta/raspberry-api)
+![GitHub issues](https://img.shields.io/github/issues/rotoapanta/raspberry-api)
+
 API for monitoring and logging the status of a Raspberry Pi, developed with FastAPI. It allows you to query system information, log events, and monitor your device in real time.
 
 ## Features
