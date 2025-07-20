@@ -14,8 +14,11 @@ router = APIRouter()
 @router.get("/status")
 def get_status() -> Dict[str, Any]:
     """
-    Returns the current system status: CPU, RAM, disk, USBs, temperature, hostname, IP, uptime, and battery.
+    Returns the current system status: CPU, RAM, disk, USBs, temperature, hostname, IP, uptime, and battery, with metadata.
     """
+    import datetime
+    from app.core.config import API_VERSION
+
     disk = psutil.disk_usage('/')
 
     # Find all USB drives mounted under /media/pi
@@ -36,7 +39,7 @@ def get_status() -> Dict[str, Any]:
             except PermissionError:
                 continue  # Ignore if the drive cannot be accessed
 
-    return {
+    data = {
         "cpu": psutil.cpu_percent(),
         "ram": psutil.virtual_memory().percent,
         "disk": round(disk.percent, 2),
@@ -54,6 +57,17 @@ def get_status() -> Dict[str, Any]:
             "voltage": 3.7,
             "status": "NORMAL"
         }
+    }
+
+    meta = {
+        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+        "api_version": API_VERSION,
+        "status": "success"
+    }
+
+    return {
+        "meta": meta,
+        "data": data
     }
 
 @router.get("/log")
