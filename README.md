@@ -1,10 +1,20 @@
 # Raspberry API
 
-![GitHub repo size](https://img.shields.io/github/repo-size/rotoapanta/raspberry-api)
-![GitHub license](https://img.shields.io/github/license/rotoapanta/raspberry-api)
-![Python version](https://img.shields.io/badge/python-3.8%2B-blue)
-![Last commit](https://img.shields.io/github/last-commit/rotoapanta/raspberry-api)
+[![Python](https://img.shields.io/badge/Python-3.11-brightgreen)](https://www.python.org/)
+[![Zabbix](https://img.shields.io/badge/Zabbix-4.6-orange)](https://www.zabbix.com/)
 ![GitHub issues](https://img.shields.io/github/issues/rotoapanta/raspberry-api)
+![GitHub repo size](https://img.shields.io/github/repo-size/rotoapanta/raspberry-api)
+![GitHub last commit](https://img.shields.io/github/last-commit/rotoapanta/raspberry-api)
+[![Discord Invite](https://img.shields.io/badge/discord-join%20now-green)](https://discord.gg/bf6rWDbJ)
+[![Docker](https://img.shields.io/badge/Docker-No-brightgreen)](https://www.docker.com/)
+[![GitHub](https://img.shields.io/badge/GitHub-Project-brightgreen)](https://github.com/rotoapanta/raspberry-api)
+[![Linux](https://img.shields.io/badge/Linux-Supported-brightgreen)](https://www.linux.org/)
+[![Windows](https://img.shields.io/badge/Windows-Supported-brightgreen)](https://www.microsoft.com/)
+[![Crontab](https://img.shields.io/badge/Crontab-Supported-brightgreen)](#installation)
+[![Author](https://img.shields.io/badge/Roberto%20-Toapanta-brightgreen)](https://www.linkedin.com/in/roberto-carlos-toapanta-g/)
+[![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen)](#change-log)
+![GitHub forks](https://img.shields.io/github/forks/rotoapanta/raspberry-api?style=social)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 API for monitoring and logging the status of a Raspberry Pi, developed with FastAPI. It allows you to query system information, log events, and monitor your device in real time.
 
