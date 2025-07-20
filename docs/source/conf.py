@@ -8,7 +8,12 @@
 
 project = 'raspberry-api'
 copyright = '2025, Roberto Toapanta'
-author = 'Roberto Toapanta'
+# Import AUTHOR from app.core.config for consistency with the API
+try:
+    from app.core.config import AUTHOR
+    author = AUTHOR
+except Exception:
+    author = 'Roberto Toapanta'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

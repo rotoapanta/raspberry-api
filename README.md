@@ -90,6 +90,17 @@ To keep the code clean and consistent:
 - `GET /api/v1/status` — Returns the current system status.
 - `GET /api/v1/log` — Returns the content of the registered logs.
 
+### API Response Metadata
+The `/api/v1/status` endpoint returns a JSON object with two main keys:
+- `meta`: Contains metadata about the response, including:
+  - `timestamp`: Date and time of the response (UTC)
+  - `api_version`: API version (from `config.py`)
+  - `status`: Response status (e.g., "success")
+  - `author`: Project author (from `config.py`)
+- `data`: Contains the actual system status information.
+
+The author and API version are configured in `app/core/config.py` as `AUTHOR` and `API_VERSION`.
+
 Interactive API documentation is available at `/docs` (Swagger UI) and `/redoc`.
 
 ## Project Structure
