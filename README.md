@@ -150,4 +150,4 @@ Contributions are welcome! Please open an issue or pull request for suggestions 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
 ## Contact
-For questions or support, contact: [your-email@example.com]
+For questions or support, contact: [robertocarlos.toapanta@gmail.com]
