@@ -1,5 +1,25 @@
+# Entornos virtuales
+venv/
+env/
+.venv/
+.conda/
+*.egg-info/
+
+# Archivos de configuración sensibles
 .env
+
+# Archivos de caché y compilados
 __pycache__/
 *.pyc
+*.pyo
+
+# Logs y archivos temporales
+*.log
 logs/
-venv/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Documentación generada
+/docs/build/
