@@ -8,13 +8,14 @@ from fastapi import FastAPI
 import socket
 import threading
 import time
+import logging
+from app.core.logging_config import logger  # Centraliza el logging
 from app.services.logging_utils import log_status
 from app.api.v1.status import router as status_router
 
 app = FastAPI()
 
-# Logging interval (seconds)
-LOG_INTERVAL: int = 10
+from app.core.config import LOG_INTERVAL  # Logging interval (seconds) from .env/config
 
 # Register API routers under versioned prefix
 app.include_router(status_router, prefix="/api/v1")

@@ -97,7 +97,8 @@ To keep the code clean and consistent:
 
 ## Automatic Log Rotation
 - Logs are stored in the directory defined by `LOG_DIR` (default `logs/`).
-- The main log file (`app.log`) is automatically rotated at 5 MB, keeping up to 5 backup files.
+- The main log file (`raspberry-api.log`) is automatically rotated at 5 MB, keeping up to 5 backup files.
+- Logging configuration is centralized in `app/core/logging_config.py`.
 
 ## Main Endpoints
 - `GET /api/v1/status` — Returns the current system status.

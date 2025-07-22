@@ -5,46 +5,49 @@ Provides functions to record the connection status (online/offline) and read the
 Uses the centralized logger defined in app.core.logging_config.
 """
 
-import os
 from datetime import datetime
 from typing import List, Dict
+import os
+import re
 from app.core.logging_config import logger, LOG_DIR
 
-CONNECTION_LOG_FILE = os.path.join(LOG_DIR, "connection.log")
 
 def log_status(is_online: bool) -> None:
     """
-    Records the connection status (ONLINE/OFFLINE) in the log file and in the main logger.
+    Records the connection status (ONLINE/OFFLINE) in the centralized logger.
 
     :param is_online: True if the system is online, False if it is offline.
     """
-    os.makedirs(os.path.dirname(CONNECTION_LOG_FILE), exist_ok=True)
     status = "ONLINE" if is_online else "OFFLINE"
-    log_entry = f"{datetime.now().isoformat()} - {status}"
-    try:
-        with open(CONNECTION_LOG_FILE, "a") as f:
-            f.write(log_entry + "\n")
-        logger.info(f"Connection status recorded: {status}")
-    except Exception as e:
-        logger.error(f"Error writing to connection log: {e}")
+    logger.info(f"Connection status: {status}")
+
 
 def read_logs() -> List[Dict[str, str]]:
     """
-    Reads the last 50 records from the connection log file.
+    Reads the last 50 connection status records from the centralized log file (raspberry-api.log and rotated logs).
 
     :return: List of dictionaries with 'timestamp' and 'status'.
     """
-    if not os.path.exists(CONNECTION_LOG_FILE):
-        logger.warning(f"Connection log file does not exist: {CONNECTION_LOG_FILE}")
-        return []
-    try:
-        with open(CONNECTION_LOG_FILE, "r") as f:
-            lines = f.readlines()
-        return [
-            {"timestamp": line.split(" - ")[0], "status": line.split(" - ")[1].strip()}
-            for line in lines[-50:]
-            if " - " in line
-        ]
-    except Exception as e:
-        logger.error(f"Error reading connection log: {e}")
-        return []
+    log_dir = LOG_DIR
+    log_files = [
+        os.path.join(log_dir, f) for f in os.listdir(log_dir)
+        if f.startswith("raspberry-api.log")
+    ]
+    log_files.sort(reverse=True)  # Most recent first
+    pattern = re.compile(r"^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[INFO\] [^:]+: Connection status: (?P<status>ONLINE|OFFLINE)")
+    records = []
+    for log_file in log_files:
+        try:
+            with open(log_file, "r") as f:
+                for line in reversed(f.readlines()):
+                    match = pattern.match(line)
+                    if match:
+                        records.append({
+                            "timestamp": match.group("timestamp"),
+                            "status": match.group("status")
+                        })
+                        if len(records) >= 50:
+                            return records
+        except Exception as e:
+            logger.error(f"Error reading log file {log_file}: {e}")
+    return records

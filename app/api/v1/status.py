@@ -8,6 +8,7 @@ import socket
 import time
 from typing import Any, Dict, List, Optional
 from app.services.logging_utils import read_logs
+from app.core.logging_config import logger  # Centralized logger
 
 router = APIRouter()
 
@@ -37,6 +38,7 @@ def get_status() -> Dict[str, Any]:
                     "percent": round(usage.percent, 2)
                 })
             except PermissionError:
+                logger.warning(f"Permission denied accessing USB drive at {part.mountpoint}")
                 continue  # Ignore if the drive cannot be accessed
 
     data = {
@@ -66,6 +68,8 @@ def get_status() -> Dict[str, Any]:
         "author": AUTHOR
     }
 
+    logger.info("Status endpoint called", extra={"ip": data["ip"]})
+
     return {
         "meta": meta,
         "data": data
@@ -76,6 +80,7 @@ def get_log() -> Any:
     """
     Returns the content of the system logs.
     """
+    logger.info("Log endpoint called")
     return read_logs()
 
 def get_cpu_temp() -> Optional[float]:
@@ -85,8 +90,11 @@ def get_cpu_temp() -> Optional[float]:
     """
     try:
         with open("/sys/class/thermal/thermal_zone0/temp") as f:
-            return round(int(f.read()) / 1000, 1)
-    except Exception:
+            temp = round(int(f.read()) / 1000, 1)
+            logger.debug(f"CPU temperature read: {temp}°C")
+            return temp
+    except Exception as e:
+        logger.error(f"Failed to read CPU temperature: {e}")
         return None
 
 def get_local_ip() -> str:
@@ -98,8 +106,10 @@ def get_local_ip() -> str:
     try:
         s.connect(("8.8.8.8", 80))
         ip: str = s.getsockname()[0]
-    except Exception:
+        logger.debug(f"Local IP determined: {ip}")
+    except Exception as e:
         ip = "127.0.0.1"
+        logger.error(f"Failed to get local IP: {e}")
     finally:
         s.close()
     return ip
